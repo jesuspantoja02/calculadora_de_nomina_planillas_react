@@ -1,0 +1,198 @@
+.company-logo {
+  display: block;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+.company-logo--monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--brand-ink);
+  background: linear-gradient(145deg, var(--surface) 0%, var(--ground) 100%);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 12px 32px rgba(10, 22, 40, 0.08);
+}
+
+.welcome-panel {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background-color: var(--ground);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  animation: welcome-panel-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.welcome-panel__overlay {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--ground) 72%, transparent);
+  pointer-events: none;
+}
+
+html[data-theme='dark'] .welcome-panel__overlay {
+  background:
+    linear-gradient(180deg, rgba(6, 14, 28, 0.55) 0%, rgba(6, 14, 28, 0.72) 45%, rgba(4, 10, 22, 0.88) 100%),
+    linear-gradient(105deg, rgba(8, 22, 48, 0.65) 0%, transparent 55%);
+}
+
+html[data-theme='dark'] .welcome-panel {
+  background-color: #0c1628;
+}
+
+.welcome-panel__content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 40px 56px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.welcome-panel__logo-wrap {
+  padding: 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.welcome-panel__logo {
+  display: block;
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.welcome-panel__nombre {
+  margin: 32px 0 0;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+html[data-theme='dark'] .welcome-panel__nombre {
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+.welcome-panel__eslogan {
+  margin: 16px 0 0;
+  max-width: 28em;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+html[data-theme='dark'] .welcome-panel__eslogan {
+  color: rgba(230, 238, 255, 0.92);
+}
+
+.welcome-panel__guia {
+  margin: auto 0 0;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+html[data-theme='dark'] .welcome-panel__guia {
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+.welcome-panel__loading {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+html[data-theme='dark'] .welcome-panel__loading {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.brand--home {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 4px 6px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.brand--home:hover {
+  background: var(--ground);
+}
+
+.brand--home:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@keyframes welcome-panel-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.main--cartilla {
+  padding: 0;
+  min-height: 0;
+}
+
+@media (max-width: 991.98px) {
+  .welcome-panel {
+    min-height: calc(100vh - 0px);
+  }
+
+  .welcome-panel__content {
+    padding: 72px 24px 40px;
+    justify-content: flex-start;
+  }
+
+  .welcome-panel__guia {
+    margin-top: 32px;
+  }
+}

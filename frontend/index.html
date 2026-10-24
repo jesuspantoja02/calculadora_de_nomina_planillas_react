@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light" data-theme="light">
+  <head>
+    <script>
+      try {
+        var t = localStorage.getItem('nomina_theme');
+        if (t === 'dark') {
+          document.documentElement.setAttribute('data-bs-theme', 'dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nómina — Gestión de planillas</title>
+    <link rel="icon" href="/sistema/planilla-nomina-logo.jpg" type="image/jpeg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

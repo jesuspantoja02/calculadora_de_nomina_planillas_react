@@ -1,0 +1,220 @@
+.kpi-grid .kpi-value {
+  font-size: clamp(1.25rem, 2.8vw, 30px);
+  overflow-wrap: anywhere;
+}
+
+.chart-panel {
+  min-width: 0;
+}
+
+.dashboard-extremos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  height: 100%;
+  min-width: 0;
+}
+
+.dashboard-extremos .panel {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dashboard-persona-meta {
+  min-width: 0;
+}
+
+.dashboard-persona-meta small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-extremo-monto {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  overflow-wrap: anywhere;
+}
+
+.chart-panel__body {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+
+.chart-panel__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chart-panel__links a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.chart-panel__links a:hover {
+  color: var(--brand-hover);
+}
+
+.chart-donut {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.chart-donut__figure {
+  position: relative;
+  width: 100%;
+  max-width: 140px;
+}
+
+.chart-donut__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: rotate(-90deg);
+}
+
+.chart-donut__ring {
+  fill: none;
+  stroke: var(--raised);
+  stroke-width: 10;
+}
+
+.chart-donut__segment {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chart-donut__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.chart-donut__center-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.chart-donut__center-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.chart-donut__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart-donut__legend li {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.chart-donut__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.chart-donut__legend-label {
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chart-donut__legend-value {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.chart-composition {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 4px;
+}
+
+.chart-composition__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.chart-composition__label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chart-composition__value {
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.chart-composition__track {
+  height: 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.chart-composition__fill {
+  height: 100%;
+  border-radius: 4px;
+  transform-origin: left center;
+  animation: chart-bar-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes chart-bar-in {
+  from {
+    transform: scaleX(0);
+    opacity: 0.6;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}

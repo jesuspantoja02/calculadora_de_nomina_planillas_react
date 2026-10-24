@@ -1,0 +1,61 @@
+/* Régimen AFP — selección de administradora */
+.regimen-afp {
+  margin-bottom: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: background-color 220ms ease;
+}
+
+.regimen-afp--open {
+  background: color-mix(in srgb, var(--brand-soft) 20%, var(--surface));
+}
+
+.regimen-afp__collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 220ms ease;
+}
+
+.regimen-afp--open .regimen-afp__collapse {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.regimen-afp__inner {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 16px;
+}
+
+.regimen-afp--open .regimen-afp__inner {
+  padding: 14px 16px 16px;
+}
+
+.regimen-afp__title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.regimen-afp__hint {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .regimen-afp__collapse {
+    transition: none;
+  }
+
+  .regimen-afp:not(.regimen-afp--open) .regimen-afp__collapse {
+    display: none;
+  }
+}

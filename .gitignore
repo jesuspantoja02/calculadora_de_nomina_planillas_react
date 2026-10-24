@@ -1,0 +1,70 @@
+# Dependencias y compilados
+node_modules/
+dist/
+out-tsc/
+build/
+.angular/
+.vite/
+*.tsbuildinfo
+
+# Secretos y entorno local (el ejemplo .env.example sí se sube)
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# SQLite en runtime: DNI, boletas y tasas. La carpeta se conserva con .gitkeep.
+backend/data/*
+!backend/data/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+*-journal
+
+# Logs, caché y cobertura de pruebas
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+.nyc_output/
+.cache/
+.eslintcache
+test-results/
+playwright-report/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editores e IDE
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*~
+*.suo
+
+# Herramientas locales del agente / diseño (no forman parte del producto del curso)
+.cursor/
+.agents/
+skills-lock.json
+.grok/
+.impeccable/
+.taste-skill/
+__pycache__/
+*.py[cod]
+
+# Temporales y exportaciones locales
+*.tmp
+*.bak
+exports/
+*.export.json

@@ -1,0 +1,41 @@
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 2;
+    animation: theme-reveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    clip-path: circle(0 at var(--theme-switch-x) var(--theme-switch-y));
+  }
+
+  @keyframes theme-reveal {
+    to {
+      clip-path: circle(var(--theme-switch-r) at var(--theme-switch-x) var(--theme-switch-y));
+    }
+  }
+}
+
+body {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.shell,
+.sidebar,
+.main,
+.panel,
+.login-page,
+.welcome-panel {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
