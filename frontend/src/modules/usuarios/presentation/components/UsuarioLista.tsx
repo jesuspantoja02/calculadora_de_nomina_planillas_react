@@ -1,6 +1,6 @@
 import { etiquetaRol } from '../../../../core/auth/roles';
 import { useTheme } from '../../../../core/theme/ThemeContext';
-import { iniciales, tintePersona } from '../../../../shared/formatters';
+import { estilosAvatarTinte, iniciales, tintePersona } from '../../../../shared/formatters';
 import { Icon } from '../../../../shared/ui/Icon';
 import type { UsuarioCuenta } from '../../domain/usuario.model';
 
@@ -62,7 +62,7 @@ export function UsuarioLista({ items, cargando, editandoId, sesionId, onEditar, 
         const esSesion = u.id === sesionId;
         return (
           <div key={u.id} className={`row-item${u.id === editandoId ? ' selected' : ''}`}>
-            <span className="avatar" aria-hidden="true" style={{ background: tinte.fondo, color: tinte.texto }}>
+            <span className="avatar" aria-hidden="true" style={estilosAvatarTinte(tinte)}>
               {iniciales(u.usuario)}
             </span>
             <div className="flex-grow-1 min-w-0">

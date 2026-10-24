@@ -37,8 +37,17 @@
 .welcome-panel__overlay {
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--ground) 72%, transparent);
   pointer-events: none;
+  /* Modo claro: velo suave para legibilidad del texto sin lavar la foto. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 10%, transparent) 0%,
+    color-mix(in srgb, var(--ground) 28%, transparent) 100%
+  );
+}
+
+html[data-theme='light'] .welcome-panel__nombre {
+  text-shadow: 0 1px 14px color-mix(in srgb, var(--surface) 90%, transparent);
 }
 
 html[data-theme='dark'] .welcome-panel__overlay {

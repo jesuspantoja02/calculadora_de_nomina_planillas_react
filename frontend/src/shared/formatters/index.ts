@@ -43,14 +43,26 @@ const HUES_PERSONA = [210, 270, 330, 30, 90, 150, 180, 240];
 export function tintePersona(
   nombre: string,
   tema: 'light' | 'dark' = 'light',
-): { fondo: string; texto: string } {
+): { fondo: string; texto: string; borde?: string } {
   let i = 0;
   for (const c of nombre.trim()) i = (i * 31 + c.charCodeAt(0)) >>> 0;
   const hue = HUES_PERSONA[i % HUES_PERSONA.length];
   if (tema === 'dark') {
     return { fondo: `hsl(${hue} 38% 24%)`, texto: `hsl(${hue} 52% 82%)` };
   }
-  return { fondo: `hsl(${hue} 42% 92%)`, texto: `hsl(${hue} 32% 28%)` };
+  return {
+    fondo: `hsl(${hue} 58% 78%)`,
+    texto: `hsl(${hue} 52% 20%)`,
+    borde: `hsl(${hue} 42% 44%)`,
+  };
+}
+
+export function estilosAvatarTinte(tinte: { fondo: string; texto: string; borde?: string }) {
+  return {
+    background: tinte.fondo,
+    color: tinte.texto,
+    ...(tinte.borde ? { boxShadow: `inset 0 0 0 1px ${tinte.borde}` } : {}),
+  };
 }
 
 export function tituloPalabras(texto: string): string {

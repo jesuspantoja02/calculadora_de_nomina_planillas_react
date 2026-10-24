@@ -5,6 +5,10 @@ export function esGestor(rol: RolUsuario | null | undefined): boolean {
   return rol === 'admin' || rol === 'jefe' || rol === 'gerente';
 }
 
+export function esAdmin(rol: RolUsuario | null | undefined): boolean {
+  return rol === 'admin';
+}
+
 export function etiquetaRol(rol: RolUsuario): string {
   switch (rol) {
     case 'admin':

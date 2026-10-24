@@ -8,5 +8,6 @@ export function crearAuthRouter(servicio: AuthService) {
   const c = crearAuthController(servicio);
   router.post('/login', c.login);
   router.get('/me', requiereAuth(servicio), c.yo);
+  router.post('/cambiar-password', requiereAuth(servicio), c.cambiarPassword);
   return router;
 }

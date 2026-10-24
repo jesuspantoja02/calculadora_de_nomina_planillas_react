@@ -9,7 +9,13 @@ export type NombreIcono =
   | 'menu'
   | 'print'
   | 'edit'
-  | 'trash';
+  | 'trash'
+  | 'chevron-down'
+  | 'check'
+  | 'alert'
+  | 'user'
+  | 'user-plus'
+  | 'x';
 
 interface IconProps {
   nombre: NombreIcono;
@@ -108,6 +114,35 @@ export function Icon({ nombre, tamano = 16 }: IconProps) {
           <path d="M10 11v6" />
           <path d="M14 11v6" />
           <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </>
+      )}
+      {nombre === 'chevron-down' && <polyline points="6 9 12 15 18 9" />}
+      {nombre === 'check' && <polyline points="20 6 9 17 4 12" />}
+      {nombre === 'alert' && (
+        <>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </>
+      )}
+      {nombre === 'user' && (
+        <>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </>
+      )}
+      {nombre === 'user-plus' && (
+        <>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="8.5" cy="7" r="4" />
+          <line x1="20" y1="8" x2="20" y2="14" />
+          <line x1="23" y1="11" x2="17" y2="11" />
+        </>
+      )}
+      {nombre === 'x' && (
+        <>
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </>
       )}
     </svg>

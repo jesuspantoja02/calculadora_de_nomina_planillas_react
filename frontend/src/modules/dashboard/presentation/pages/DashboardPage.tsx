@@ -5,7 +5,7 @@ import { container } from '../../../../composition/container';
 import { PageHeader } from '../../../../shared/ui/PageHeader';
 import { CompositionBars } from '../../../../shared/ui/charts/CompositionBars';
 import { DonutChart } from '../../../../shared/ui/charts/DonutChart';
-import { formatoMoneda, iniciales, tituloPalabras, tintePersona } from '../../../../shared/formatters';
+import { estilosAvatarTinte, formatoMoneda, iniciales, tituloPalabras, tintePersona } from '../../../../shared/formatters';
 import { colorDistribucionPension, etiquetaSistemaPensiones } from '../../../../shared/pensiones';
 import type { ResumenDashboard } from '../../domain/dashboard.model';
 
@@ -126,10 +126,7 @@ export function DashboardPage() {
                   <div className="d-flex align-items-center gap-2 min-w-0">
                     <span
                       className="avatar flex-shrink-0"
-                      style={(() => {
-                        const t = tintePersona(r.mayorSueldo.nombre, tema);
-                        return { background: t.fondo, color: t.texto };
-                      })()}
+                      style={estilosAvatarTinte(tintePersona(r.mayorSueldo.nombre, tema))}
                     >
                       {iniciales(r.mayorSueldo.nombre)}
                     </span>
@@ -154,10 +151,7 @@ export function DashboardPage() {
                   <div className="d-flex align-items-center gap-2 min-w-0">
                     <span
                       className="avatar flex-shrink-0"
-                      style={(() => {
-                        const t = tintePersona(r.menorSueldo.nombre, tema);
-                        return { background: t.fondo, color: t.texto };
-                      })()}
+                      style={estilosAvatarTinte(tintePersona(r.menorSueldo.nombre, tema))}
                     >
                       {iniciales(r.menorSueldo.nombre)}
                     </span>

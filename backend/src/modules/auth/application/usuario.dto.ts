@@ -8,7 +8,7 @@ const usuarioCampo = z
   .max(64, 'El usuario no puede superar 64 caracteres.')
   .regex(/^[a-zA-Z0-9._-]+$/, 'Solo letras, números, punto, guion y guion bajo.');
 
-const passwordCampo = z
+export const passwordCampo = z
   .string()
   .min(8, 'La contraseña debe tener al menos 8 caracteres.')
   .max(128, 'La contraseña es demasiado larga.');

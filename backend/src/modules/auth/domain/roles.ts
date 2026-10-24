@@ -10,8 +10,8 @@ export function esGestor(rol: RolUsuario): boolean {
 /** Quién puede asignar cada rol al crear o editar cuentas. */
 export function puedeAsignarRol(actor: RolUsuario, objetivo: RolUsuario): boolean {
   if (actor === 'admin') return true;
-  if (actor === 'jefe') return objetivo === 'usuario' || objetivo === 'gerente';
-  if (actor === 'gerente') return objetivo === 'usuario';
+  if (actor === 'gerente') return objetivo === 'jefe' || objetivo === 'usuario';
+  if (actor === 'jefe') return objetivo === 'usuario';
   return false;
 }
 

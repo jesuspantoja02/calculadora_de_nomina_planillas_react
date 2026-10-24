@@ -7,7 +7,7 @@ import type { ActualizarUsuarioDto, UsuarioCuenta, UsuarioCuentaDto } from '../.
 
 const usuarios = container.usuarios;
 
-export function useUsuariosStore() {
+export function useUsuariosStore(esAdministrador: boolean) {
   const toast = useToast();
   const run = useApiAction();
 
@@ -26,7 +26,11 @@ export function useUsuariosStore() {
     const mostrarCarga = itemsRef.current.length === 0;
     if (mostrarCarga) setCargando(true);
 
-    Promise.all([usuarios.listar(), usuarios.rolesAsignables()])
+    const promesa = esAdministrador
+      ? Promise.all([usuarios.listar(), usuarios.rolesAsignables()])
+      : usuarios.rolesAsignables().then((roles) => [[], roles] as [UsuarioCuenta[], RolUsuario[]]);
+
+    promesa
       .then(([lista, roles]) => {
         if (!ctrl.signal.aborted) {
           setItems(lista);
@@ -41,7 +45,7 @@ export function useUsuariosStore() {
       });
 
     return () => ctrl.abort();
-  }, [version]);
+  }, [version, esAdministrador]);
 
   const refrescar = useCallback(() => setVersion((v) => v + 1), []);
 

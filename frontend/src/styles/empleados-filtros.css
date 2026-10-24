@@ -13,3 +13,8 @@
     margin-inline-start: auto;
   }
 }
+
+.empleado-lista .avatar {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}

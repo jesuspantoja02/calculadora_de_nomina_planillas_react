@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import {
   borrarCredencialesRecordadas,
@@ -14,9 +14,6 @@ import '../../styles/login.css';
 export function LoginPage() {
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as { from?: string } | null)?.from ?? '/';
-
   const [usuario, setUsuario] = useState(() => leerCredencialesRecordadas()?.usuario ?? '');
   const [password, setPassword] = useState(() => leerCredencialesRecordadas()?.password ?? '');
   const [remember, setRemember] = useState(() => leerCredencialesRecordadas() != null);
@@ -26,7 +23,7 @@ export function LoginPage() {
   const [exiting, setExiting] = useState(false);
 
   if (isAuthenticated) {
-    return <Navigate to={from} replace />;
+    return <Navigate to="/" replace />;
   }
 
   const onSubmit = async (event: FormEvent) => {
@@ -49,7 +46,7 @@ export function LoginPage() {
 
     setExiting(true);
     window.setTimeout(() => {
-      navigate(from, { replace: true });
+      navigate('/', { replace: true });
     }, 320);
   };
 

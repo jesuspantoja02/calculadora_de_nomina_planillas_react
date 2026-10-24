@@ -10,9 +10,9 @@ pagos y boletas — se desarrolla en **dos unidades** para mostrar cómo escala 
 | **Unidad 2** | Semanas 6–9: Node.js, TypeScript, Angular y API REST | Node ≥ 22.18, Express 5, TS, Angular 22, SQLite, Bootstrap 5.3 |
 | **Unidad 3** | Semanas 11–14: React, hooks, enrutamiento e integración REST | Node ≥ 22.18, Express 5, TS, React 19, Vite 8, React Router 7, SQLite, Bootstrap 5.3 |
 
-En el árbol actual del repositorio (Unidad 3 completa) vive **`backend/`** (sin cambios respecto a la Unidad 2) y **`frontend/`**
-(SPA en **React 19** con Vite). La Unidad 1 y la Unidad 2 (Angular) se conservan en el **historial de git** y se pueden
-recuperar para comparar versiones.
+En el árbol actual del repositorio (Unidad 3 completa) vive **`backend/`** (misma base hexagonal de la Unidad 2, con **auth** y
+usuarios) y **`frontend/`** (SPA en **React 19** con Vite). La Unidad 1 y la Unidad 2 (Angular) se conservan en el **historial de
+git** y se pueden recuperar para comparar versiones.
 
 ### Evolución por unidad (qué se gana en cada paso)
 
@@ -24,8 +24,9 @@ recuperar para comparar versiones.
 | **Cálculo de planilla** | Tasas simplificadas en clases JS | Normativa peruana (oct. 2026) en `calculo-planilla.ts` | Sin cambios en el dominio del backend |
 | **Validación** | En el DOM al escribir | Zod (API) + Reactive Forms + `appEntrada` | Zod (API) + formularios controlados + `EntradaInput` |
 | **Navegación** | Vistas con `data-view` y JS | Rutas Angular con lazy loading | React Router 7 + `React.lazy` |
-| **Menú (misma idea de negocio)** | Registrar · Pago · Boletas · Dashboard · Configuración | Empleados · Procesar pago · Boletas · Dashboard · Configuración | Igual que Unidad 2 |
-| **Identidad visual** | Ink + ámbar (`#0a0c11`, `#e0b04a`) | Tokens en `frontend/src/styles/tokens.css` | Mismos tokens y tema Bootstrap |
+| **Menú (misma idea de negocio)** | Registrar · Pago · Boletas · Dashboard · Configuración | Empleados · Procesar pago · Boletas · Dashboard · Configuración | Igual que Unidad 2 + **login**, **panel de inicio** (`/`) y **usuarios** (gestores) |
+| **Identidad visual** | Ink + ámbar (`#0a0c11`, `#e0b04a`) | Tokens en `frontend/src/styles/tokens.css` | Tokens + Bootstrap; **tema claro/oscuro**; tipografía **Geist**; marca CNJ en panel de bienvenida |
+| **Acceso** | Sin login (solo cliente) | Sin login en la Unidad 2 documentada | **JWT** (`Authorization: Bearer`), roles y rutas protegidas en React Router |
 
 ---
 
@@ -281,41 +282,59 @@ conservando el mismo flujo de pantallas, **arquitectura hexagonal** en backend y
 
 | | Tecnología |
 |---|---|
-| Backend | Sin cambios respecto a la Unidad 2 (arquitectura hexagonal, Express 5, SQLite) |
-| Frontend | React 19, Vite 8, React Router 7, TypeScript 6, Bootstrap 5.3, fuentes Manrope y Source Serif 4 |
+| Backend | Arquitectura hexagonal (Express 5, SQLite) + módulo **`auth`** (JWT, usuarios, roles) |
+| Frontend | React 19, Vite 8, React Router 7, TypeScript 6, Bootstrap 5.3, **Geist Sans / Geist Mono** (`@fontsource`) |
 | Pruebas | `node:test` (backend) y Vitest (frontend, validadores de entrada) |
+| Despliegue | Guía en [`docs/DESPLIEGUE-RENDER.md`](docs/DESPLIEGUE-RENDER.md) (API + SPA en Render, CORS, `VITE_API_URL`) |
 
 ### Flujo de usuario (continuidad con las unidades anteriores)
 
-| Ruta React | Equivalente Unidad 1 |
-|---|---|
-| `/empleados` | Vista `registrar` |
-| `/planilla/procesar-pago` | Vista `pago` |
-| `/planilla/boletas` | Vista `boletas` |
-| `/dashboard` | Vista `dashboard` |
-| `/configuracion` | Vista `configuracion` |
+| Ruta React | Equivalente Unidad 1 | Notas |
+|---|---|---|
+| `/login` | — | Pantalla de acceso (pública) |
+| `/` | — | Panel de bienvenida (logo, nombre y eslogan; imagen en `public/empresa/`) |
+| `/empleados` | Vista `registrar` | Requiere sesión |
+| `/planilla/procesar-pago` | Vista `pago` | Requiere sesión |
+| `/planilla/boletas` | Vista `boletas` | Requiere sesión |
+| `/dashboard` | Vista `dashboard` | Gráficos por régimen/AFP (ONP, Integra, Prima, etc.) |
+| `/configuracion` | Vista `configuracion` | Tasas, datos de empresa, logo (subida en base64) |
+| `/usuarios` | — | Gestión de usuarios; listado/edición solo **admin**, alta para gestores |
 
 ### Estructura del repositorio (Unidad 3)
 
 ```
 calculadora_de_nomina_planillas/
 ├── backend/                         API REST hexagonal
-│   └── src/modules/…                domain · application · infrastructure · presentation
+│   └── src/modules/
+│       ├── auth/                    Login JWT, usuarios, roles (SQLite)
+│       ├── empleados/ · planilla/ · configuracion/ · dashboard/
+│       └── …                        domain · application · infrastructure · presentation
 ├── frontend/                        SPA React hexagonal + Vite
+│   ├── public/empresa/              Assets de marca (p. ej. `cnj-panel-hero.jpg`, logo)
 │   ├── vite.config.ts               Proxy /api → :3000 en desarrollo
 │   └── src/
 │       ├── composition/container.ts Raíz de composición (puertos ↔ adaptadores HTTP)
+│       ├── config/                  `environment.ts`, `empresaBranding.ts` (valores por defecto CNJ)
 │       ├── shared/                  Infra HTTP (`fetch`), UI, validadores, formateadores
-│       ├── core/                    Layout shell y toasts (Context)
+│       ├── core/                    Auth, tema, layout (`Shell`, `WelcomePanel`, `LoginPage`), toasts
 │       └── modules/                 Un módulo por funcionalidad (como el backend)
 │           └── <modulo>/            domain · application · infrastructure · presentation
-└── docs/nomina-api.postman_collection.json
+└── docs/
+    ├── nomina-api.postman_collection.json
+    └── DESPLIEGUE-RENDER.md         Publicación en Render (plan Free)
 ```
 
-### Backend — sin cambios (hexagonal)
+### Backend — hexagonal + autenticación
 
-El backend de la Unidad 2 se mantiene: mismos módulos, puertos, adaptadores SQLite, DTOs Zod y rutas `/api/v1`. La Unidad 3
-solo sustituye el cliente Angular por React; la API sigue siendo la fuente de verdad.
+Se conservan empleados, planilla, configuración y dashboard (misma normativa en `calculo-planilla.ts`, Zod, SQLite). La Unidad 3
+**añade** el módulo `auth`:
+
+- **`POST /api/v1/auth/login`** — credenciales → token JWT (público).
+- **`GET /api/v1/auth/me`**, **`POST /api/v1/auth/cambiar-password`** — con token.
+- **`/api/v1/usuarios`** — CRUD y roles (protegido; reglas por rol en el backend).
+- El resto de rutas de negocio van bajo el mismo router protegido (`requiereAuth`); solo `/health` y login quedan públicos.
+- Variables en `backend/.env.example`: `AUTH_SECRET`, `AUTH_TOKEN_TTL_HOURS`, `CORS_ORIGINS`.
+- Al arrancar, si no hay administrador, se crea uno inicial (`seed-usuarios.ts`); en producción cambia el secreto y las credenciales.
 
 ### Frontend — arquitectura hexagonal (puertos y adaptadores)
 
@@ -329,11 +348,25 @@ presentation  →  application  →  domain  ←  infrastructure
 - **infrastructure:** adaptadores `Http*Repository` que implementan los puertos usando **`fetch`** (`shared/infrastructure/http/apiClient.ts`).
 - **presentation:** páginas, componentes y hooks (`useEmpleadosStore`) que llaman a los servicios vía `composition/container.ts`.
 - **`composition/container.ts`** es el único lugar donde se instancian adaptadores y servicios (análogo a `backend/src/container.ts`).
-- **`core/`** y **`shared/`** aportan layout, Context de toasts, UI genérica y utilidades transversales.
+- **`core/`** — `AuthContext` (token en `sessionStorage`, cabecera `Authorization`), `ThemeContext` (claro/oscuro con transición),
+  `RequireAuth` / `RequireGestor`, shell con sidebar y panel de bienvenida.
+- **`shared/`** — UI genérica, `apiClient` con manejo de errores, formateadores y colores de gráficos (`pensiones.ts`).
+
+### Autenticación y roles (frontend)
+
+| Rol | Acceso típico |
+|---|---|
+| `usuario` | Planilla, empleados, boletas, dashboard, configuración (según política del curso/cliente) |
+| `jefe` / `gerente` | Lo anterior + ruta **`/usuarios`** (alta de usuarios con roles asignables) |
+| `admin` | Todo lo anterior + listar, editar y eliminar usuarios |
+
+Rutas en `routes.tsx`: árbol bajo `RequireAuth`; `usuarios` además bajo `RequireGestor`. Perfil y cambio de contraseña en el sheet del sidebar.
 
 ### Diseño visual
 
-Se conservan los tokens de la Unidad 1 y 2 en `frontend/src/styles/tokens.css` y el tema Bootstrap en `bootstrap-theme.css`.
+Tokens en `frontend/src/styles/tokens.css` (paletas **light** y **dark**), tema Bootstrap en `bootstrap-theme.css`, gráficos en
+`charts.css`, panel de inicio en `welcome.css`. Interruptor de tema en el sidebar (`ThemeToggle`). Marca por defecto CNJ en
+`config/empresaBranding.ts`; la configuración de la API puede sobrescribir nombre, eslogan y logo.
 
 ### Cumplimiento del temario (semanas 11–14)
 
@@ -352,9 +385,20 @@ Referencia: [`Java_Script_Avanzado_Semanas_11_al_14.md`](Java_Script_Avanzado_Se
 | Validación de entrada | `EntradaInput` + `formularios.ts` (misma lógica que la directiva `appEntrada`) |
 | Formateo | Funciones en `shared/formatters/` (antes pipes de Angular) |
 | Integración «Procesar pago» | Formulario + `POST /pagos/simular` en vivo + emisión + boleta imprimible |
+| Sesión y API | Login con `fetch`, token JWT en peticiones protegidas; módulo `usuarios` en React |
 
-Las reglas de negocio, endpoints REST, seguridad y calidad del backend son los mismos descritos en la Unidad 2 (tablas de API,
-`calculo-planilla.ts`, Zod, Helmet, CORS, etc.).
+Las reglas de negocio y `calculo-planilla.ts` son las de la Unidad 2. La tabla de API de abajo **amplía** la de la Unidad 2 con
+auth; el resto de endpoints de empleados/pagos/configuración/dashboard **requieren** `Authorization: Bearer <token>` salvo `/health`
+y `POST /auth/login`.
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/auth/login` | Iniciar sesión (público) |
+| GET | `/auth/me` | Usuario actual |
+| POST | `/auth/cambiar-password` | Cambiar contraseña |
+| GET · POST | `/usuarios` | Listar (admin) · Crear (gestor+) |
+| PUT · DELETE | `/usuarios/:id` | Actualizar · Eliminar (admin) |
+| GET | `/usuarios/roles-asignables` | Roles que puede asignar quien crea usuarios |
 
 ### Instalación y ejecución (Unidad 3 — árbol actual)
 
@@ -367,13 +411,18 @@ npm run install:all
 # 2) Backend — terminal 1
 cd backend
 cp .env.example .env            # Windows: copy .env.example .env
-npm run seed                    # opcional: 3 empleados de ejemplo
+# Revisa AUTH_SECRET y CORS_ORIGINS (incluye http://localhost:5173)
+npm run seed                    # opcional: empleados de ejemplo
 npm run dev                     # http://localhost:3000/api/v1/health
 
 # 3) Frontend — terminal 2
 cd frontend
 npm start                       # http://localhost:5173  (Vite con proxy /api → :3000)
+# Desde la raíz también: npm run dev:backend  |  npm run dev:frontend
 ```
+
+Abre `http://localhost:5173/login`. Tras el primer arranque del backend existe un administrador por defecto (ver
+`backend/src/modules/auth/infrastructure/seed-usuarios.ts`); cámbialo en entornos reales.
 
 Producción:
 
@@ -382,8 +431,9 @@ cd backend  && npm run build && npm start
 cd frontend && npm run build                  # salida en frontend/dist/
 ```
 
-Sirve el frontend y la API bajo el mismo dominio (proxy inverso), o cambia `apiUrl` en `frontend/src/config/environment.ts`
-y agrega el origen en `CORS_ORIGINS` (por defecto incluye `http://localhost:5173`).
+Sirve el frontend y la API bajo el mismo dominio (proxy inverso), o define `VITE_API_URL` al hacer `npm run build` del frontend
+(ver `frontend/src/config/environment.ts` y `frontend/.env.example`) y agrega el origen del Static Site en `CORS_ORIGINS`.
+Pasos detallados: [`docs/DESPLIEGUE-RENDER.md`](docs/DESPLIEGUE-RENDER.md).
 
 **Pruebas y auditoría**
 
@@ -394,5 +444,5 @@ cd frontend && npm test && npm run audit:prod
 
 ### Próximos pasos sugeridos para escalar
 
-Autenticación y roles (JWT + rutas protegidas en React Router), multiempresa, migración a PostgreSQL (nuevos adaptadores de repositorio),
-documentación OpenAPI, CI con `npm audit` y pruebas, y despliegue con contenedores o hosting estático del build de Vite.
+Multiempresa, migración a PostgreSQL (nuevos adaptadores de repositorio), documentación OpenAPI, ampliar la colección Postman con
+flujos de login, CI con `npm audit` y pruebas, y despliegue en contenedores u otros hosts (Render ya documentado en `docs/`).

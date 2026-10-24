@@ -1,5 +1,12 @@
 import { useTheme } from '../../../../core/theme/ThemeContext';
-import { enmascararDni, formatoMoneda, iniciales, tituloPalabras, tintePersona } from '../../../../shared/formatters';
+import {
+  enmascararDni,
+  estilosAvatarTinte,
+  formatoMoneda,
+  iniciales,
+  tituloPalabras,
+  tintePersona,
+} from '../../../../shared/formatters';
 import { etiquetaSistemaPensiones } from '../../../../shared/pensiones';
 import { Icon } from '../../../../shared/ui/Icon';
 import type { Empleado } from '../../domain/empleado.model';
@@ -57,7 +64,7 @@ export function EmpleadoLista({ items, cargando, editandoId, onEditar, onElimina
             <span
               className="avatar"
               aria-hidden="true"
-              style={{ background: tinte.fondo, color: tinte.texto }}
+              style={estilosAvatarTinte(tinte)}
             >
               {iniciales(e.nombre)}
             </span>

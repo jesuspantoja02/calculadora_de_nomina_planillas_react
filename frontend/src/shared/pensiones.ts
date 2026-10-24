@@ -10,7 +10,7 @@ export function colorDistribucionPension(id: string): string {
   const map: Record<string, string> = {
     onp: 'var(--chart-onp)',
     'afp-integra': 'var(--chart-afp)',
-    'afp-prima': '#2563eb',
+    'afp-prima': 'var(--chart-afp-prima)',
     'afp-profuturo': '#4f46e5',
     'afp-habitat': 'var(--brand-secondary)',
     'afp-pendiente': '#94a3b8',

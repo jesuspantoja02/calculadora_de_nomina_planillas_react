@@ -76,11 +76,11 @@
   padding-right: 2.75rem;
 }
 
-/* Icono de validación de Bootstrap a la izquierda del ojo (evita solapamiento). */
-.form-secret-wrap .form-control.is-invalid,
-.form-secret-wrap .form-control.is-valid {
-  padding-right: calc(2.75rem + 1.5em + 0.75rem);
-  background-position: right calc(2.75rem + 0.375em + 0.1875rem) center;
+/* Validación externa (icono al costado): solo ojo a la derecha. */
+.form-secret-wrap .form-control.form-control--status-external.is-invalid,
+.form-secret-wrap .form-control.form-control--status-external.is-valid {
+  padding-right: 2.75rem;
+  background-image: none;
 }
 
 .form-secret-wrap__reveal {
