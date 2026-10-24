@@ -68,6 +68,48 @@
   color: var(--faint);
 }
 
+.form-secret-wrap {
+  position: relative;
+}
+
+.form-secret-wrap .form-control {
+  padding-right: 2.75rem;
+}
+
+/* Icono de validación de Bootstrap a la izquierda del ojo (evita solapamiento). */
+.form-secret-wrap .form-control.is-invalid,
+.form-secret-wrap .form-control.is-valid {
+  padding-right: calc(2.75rem + 1.5em + 0.75rem);
+  background-position: right calc(2.75rem + 0.375em + 0.1875rem) center;
+}
+
+.form-secret-wrap__reveal {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.form-secret-wrap__reveal:hover {
+  color: var(--brand);
+}
+
+.form-secret-wrap__reveal:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .form-label {
   font-size: 0.8125rem;
   font-weight: 500;

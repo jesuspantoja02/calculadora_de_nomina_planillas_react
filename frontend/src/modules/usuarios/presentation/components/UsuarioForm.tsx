@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { etiquetaRol, type RolUsuario } from '../../../../core/auth/roles';
+import { PasswordRevealButton } from '../../../../shared/ui/PasswordRevealButton';
 import { claseValidacion } from '../../../../shared/validators/formularios';
 import type { ActualizarUsuarioDto, UsuarioCuenta, UsuarioCuentaDto } from '../../domain/usuario.model';
 
@@ -30,12 +31,14 @@ export function UsuarioForm({ cuenta, rolesAsignables, guardando, onGuardar, onC
 
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
+  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [rol, setRol] = useState<RolUsuario>(rolInicial);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const limpiar = useCallback(() => {
     setUsuario('');
     setPassword('');
+    setMostrarPassword(false);
     setRol(rolInicial);
     setTouched({});
   }, [rolInicial]);
@@ -48,6 +51,7 @@ export function UsuarioForm({ cuenta, rolesAsignables, guardando, onGuardar, onC
     if (cuenta) {
       setUsuario(cuenta.usuario);
       setPassword('');
+      setMostrarPassword(false);
       setRol(cuenta.rol);
       setTouched({});
     } else {
@@ -115,16 +119,23 @@ export function UsuarioForm({ cuenta, rolesAsignables, guardando, onGuardar, onC
 
         <div className="mb-3">
           <label htmlFor="cuenta-password">{esNuevo ? 'Contraseña' : 'Nueva contraseña (opcional)'}</label>
-          <input
-            id="cuenta-password"
-            type="password"
-            className={`form-control ${claseValidacion(passwordOk, !passwordOk, !!touched.password, !!touched.password)}`}
-            autoComplete={esNuevo ? 'new-password' : 'off'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onBlur={() => setTouched((t) => ({ ...t, password: true }))}
-            disabled={guardando}
-          />
+          <div className="form-secret-wrap">
+            <input
+              id="cuenta-password"
+              type={mostrarPassword ? 'text' : 'password'}
+              className={`form-control ${claseValidacion(passwordOk, !passwordOk, !!touched.password, !!touched.password)}`}
+              autoComplete={esNuevo ? 'new-password' : 'off'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => setTouched((t) => ({ ...t, password: true }))}
+              disabled={guardando}
+            />
+            <PasswordRevealButton
+              visible={mostrarPassword}
+              onToggle={() => setMostrarPassword((v) => !v)}
+              className="form-secret-wrap__reveal"
+            />
+          </div>
           {!esNuevo ? <small className="text-secondary">Déjala vacía para no cambiarla.</small> : null}
         </div>
 
