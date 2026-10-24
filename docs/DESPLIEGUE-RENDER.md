@@ -442,6 +442,24 @@ Se compila en el bundle en el momento del build; si cambias la URL de la API, **
 3. `VITE_API_URL` correcta y **nuevo deploy** del Static Site tras cambiarla.
 4. Sesión iniciada (token en `sessionStorage`).
 
+### En el navegador, `/api/v1/empleados` devuelve `NO_AUTENTICADO`
+
+Es **comportamiento correcto**. Esa ruta (y casi todo bajo `/api/v1` salvo `/health` y `POST /auth/login`) exige el header `Authorization: Bearer <token>`. Abrir la URL en la barra de direcciones **no** envía ese header.
+
+Para ver el JSON de empleados:
+
+- **PowerShell** (sección 10): login → `Invoke-RestMethod` a `/empleados` con el token.
+- **Consola del navegador** en tu SPA ya logueada:
+
+  ```javascript
+  const token = sessionStorage.getItem('nomina_auth_token');
+  fetch('https://TU-API.onrender.com/api/v1/empleados', {
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((r) => r.json()).then(console.log);
+  ```
+
+- **Postman** u otra herramienta HTTP con Bearer tras el login.
+
 ### Desplegar solo backend o solo frontend
 
 Cada push a `main` redeploya el servicio conectado, o **Manual Deploy** → **Deploy latest commit**.
