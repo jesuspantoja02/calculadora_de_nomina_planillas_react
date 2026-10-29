@@ -68,3 +68,11 @@ __pycache__/
 *.bak
 exports/
 *.export.json
+
+# Material de curso / exposición (local, no versionar)
+Guia_Exposicion_Unidad_2.md
+Guia_Exposicion_Unidad_3.md
+Java_Script_Avanzado_Semanas_11_al_14.md
+Presentacion_Unidad_2.md
+Presentacion_Unidad_3.md
+PRODUCT.md
